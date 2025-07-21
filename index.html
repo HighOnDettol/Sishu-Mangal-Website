@@ -19,7 +19,7 @@
                     <li><a href="#committee" class="hover:text-blue-600 transition duration-300">Managing Committee</a></li>
                     <li><a href="#schools" class="hover:text-blue-600 transition duration-300">Our Schools</a></li>
                     <li><a href="#admission" class="hover:text-blue-600 transition duration-300">Admission Form</a></li>
-                    <li><a href="#affiliation" class="hover:text-blue-600 transition duration-300">Affiliation Form</a></li>
+                    <li><a href="#affiliation" id="affiliationLink" class="hover:text-blue-600 transition duration-300">Affiliation Form</a></li>
                 </ul>
             </nav>
         </div>
@@ -218,7 +218,7 @@
         </section>
 
         <!-- 6. Form for Schools Seeking Affiliation -->
-        <section id="affiliation" class="mb-12 p-6 bg-blue-50 rounded-lg shadow-md border border-blue-100">
+        <section id="affiliation" class="mb-12 p-6 bg-blue-50 rounded-lg shadow-md border border-blue-100 hidden">
             <h2 class="text-3xl font-semibold text-blue-800 mb-4 border-b-2 border-blue-300 pb-2">School Affiliation Form</h2>
             <form class="space-y-6 text-gray-700">
                 <!-- I. INSTITUTIONAL DETAILS -->
@@ -534,6 +534,26 @@
                 },
             },
         };
+
+        // JavaScript to handle showing/hiding the affiliation form
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the link for the affiliation form
+            const affiliationLink = document.getElementById('affiliationLink');
+            // Get the affiliation form section
+            const affiliationSection = document.getElementById('affiliation');
+
+            // Add a click event listener to the link
+            affiliationLink.addEventListener('click', function(event) {
+                // Prevent the default jump behavior of the anchor link
+                event.preventDefault(); 
+                
+                // Remove the 'hidden' class to show the section
+                affiliationSection.classList.remove('hidden');
+
+                // Smoothly scroll to the affiliation section
+                affiliationSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
     </script>
 </body>
 </html>
