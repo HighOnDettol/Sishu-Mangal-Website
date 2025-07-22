@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sishu Mangal Parsat - Student Login</title>
+    <!-- Link to Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind CSS configuration for consistency
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+<body class="font-inter bg-gray-50 text-gray-800 antialiased">
+    <!-- Header Section -->
+    <header class="bg-blue-50 text-blue-800 p-4 shadow-xl rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold">Sishu Mangal Parsat</h1>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="index.html" class="hover:text-blue-600 transition duration-300">Home</a></li>
+                    <li><a href="index.html#founder" class="hover:text-blue-600 transition duration-300">About Founder</a></li>
+                    <li><a href="index.html#mission" class="hover:text-blue-600 transition duration-300">Mission & Vision</a></li>
+                    <li><a href="index.html#committee" class="hover:text-blue-600 transition duration-300">Managing Committee</a></li>
+                    <li><a href="index.html#schools" class="hover:text-blue-600 transition duration-300">Our Schools</a></li>
+                    <li><a href="admission-form.html" class="hover:text-blue-600 transition duration-300">Admission Form</a></li>
+                    <li><a href="affiliation-form.html" class="hover:text-blue-600 transition duration-300">Affiliation Form</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area: Login/Signup Forms -->
+    <main class="container mx-auto my-8 p-6 bg-white shadow-lg rounded-lg max-w-md">
+        <section class="p-6 bg-blue-50 rounded-lg shadow-md border border-blue-100">
+            <h2 class="text-3xl font-semibold text-blue-800 mb-4 border-b-2 border-blue-300 pb-2 text-center">Student Portal</h2>
+            
+            <div id="messageBox" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 hidden" role="alert">
+                <strong class="font-bold">Error!</strong>
+                <span class="block sm:inline" id="messageText"></span>
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onclick="document.getElementById('messageBox').classList.add('hidden')">
+                    <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.15a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.029a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.15 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+                </span>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-4">
+                <h3 class="text-2xl font-semibold text-blue-700 mb-2">Login</h3>
+                <div>
+                    <label for="loginEmail" class="block text-lg font-medium mb-1">Email:</label>
+                    <input type="email" id="loginEmail" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Enter your email" required>
+                </div>
+                <div>
+                    <label for="loginPassword" class="block text-lg font-medium mb-1">Password:</label>
+                    <input type="password" id="loginPassword" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white px-8 py-3 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out text-lg font-semibold shadow-lg">Login</button>
+                <p class="text-center text-gray-600 mt-4">Don't have an account? <a href="#" id="showSignup" class="text-blue-600 hover:underline">Sign Up here</a></p>
+            </form>
+
+            <!-- Signup Form (hidden by default) -->
+            <form id="signupForm" class="space-y-4 hidden mt-8">
+                <h3 class="text-2xl font-semibold text-blue-700 mb-2">Sign Up</h3>
+                <div>
+                    <label for="signupEmail" class="block text-lg font-medium mb-1">Email:</label>
+                    <input type="email" id="signupEmail" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Enter your email" required>
+                </div>
+                <div>
+                    <label for="signupPassword" class="block text-lg font-medium mb-1">Password:</label>
+                    <input type="password" id="signupPassword" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Create a password (min 6 characters)" required minlength="6">
+                </div>
+                <button type="submit" class="w-full bg-green-600 text-white px-8 py-3 rounded-md hover:bg-green-700 transition duration-300 ease-in-out text-lg font-semibold shadow-lg">Sign Up</button>
+                <p class="text-center text-gray-600 mt-4">Already have an account? <a href="#" id="showLogin" class="text-blue-600 hover:underline">Login here</a></p>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-white p-6 text-center rounded-t-lg mt-8">
+        <p>&copy; 2025 Sishu Mangal Parsat. All rights reserved.</p>
+        <p class="mt-2 text-sm">Designed with <span class="text-red-500">&hearts;</span> for Education</p>
+    </footer>
+
+    <!-- Firebase SDKs (DO NOT CHANGE THESE LINES) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    
+    <script>
+        // YOUR FIREBASE CONFIGURATION GOES HERE
+        // PASTE THE const firebaseConfig = { ... }; BLOCK YOU COPIED FROM FIREBASE CONSOLE HERE
+        // It should look like this example (but with YOUR unique values):
+        const firebaseConfig = {
+            apiKey: "YOUR_UNIQUE_API_KEY_HERE",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID",
+            // measurementId: "YOUR_MEASUREMENT_ID" // This might be here or not
+        };
+
+        // Initialize Firebase (DO NOT CHANGE THIS LINE)
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth(); // (DO NOT CHANGE THIS LINE)
+
+        // Get references to HTML elements (DO NOT CHANGE THESE LINES)
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const showSignupLink = document.getElementById('showSignup');
+        const showLoginLink = document.getElementById('showLogin');
+        const messageBox = document.getElementById('messageBox');
+        const messageText = document.getElementById('messageText');
+
+        // Function to display messages (DO NOT CHANGE THIS FUNCTION)
+        function showMessage(message, isError = true) {
+            messageText.textContent = message;
+            messageBox.classList.remove('hidden');
+            if (isError) {
+                messageBox.classList.remove('bg-green-100', 'border-green-400', 'text-green-700');
+                messageBox.classList.add('bg-red-100', 'border-red-400', 'text-red-700');
+            } else {
+                messageBox.classList.remove('bg-red-100', 'border-red-400', 'text-red-700');
+                messageBox.classList.add('bg-green-100', 'border-green-400', 'text-green-700');
+            }
+        }
+
+        // Handle Signup (DO NOT CHANGE THIS FUNCTION)
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent default form submission
+            messageBox.classList.add('hidden'); // Hide previous messages
+
+            const email = signupForm['signupEmail'].value;
+            const password = signupForm['signupPassword'].value;
+
+            try {
+                await auth.createUserWithEmailAndPassword(email, password);
+                showMessage('Account created successfully! You can now log in.', false);
+                // Optionally switch to login form after successful signup
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                loginForm['loginEmail'].value = email; // Pre-fill email for convenience
+                loginForm['loginPassword'].value = ''; // Clear password
+            } catch (error) {
+                showMessage(error.message);
+            }
+        });
+
+        // Handle Login (DO NOT CHANGE THIS FUNCTION)
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent default form submission
+            messageBox.classList.add('hidden'); // Hide previous messages
+
+            const email = loginForm['loginEmail'].value;
+            const password = loginForm['loginPassword'].value;
+
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                // Redirect to student dashboard on successful login
+                window.location.href = 'student-dashboard.html'; 
+            } catch (error) {
+                showMessage(error.message);
+            }
+        });
+
+        // Toggle between login and signup forms (DO NOT CHANGE THESE FUNCTIONS)
+        showSignupLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginForm.classList.add('hidden');
+            signupForm.classList.remove('hidden');
+            messageBox.classList.add('hidden'); // Hide messages when switching forms
+        });
+
+        showLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupForm.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+            messageBox.classList.add('hidden'); // Hide messages when switching forms
+        });
+    </script>
+</body>
+</html>
