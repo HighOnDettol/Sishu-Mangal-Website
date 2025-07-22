@@ -44,7 +44,7 @@
             <h2 class="text-3xl font-semibold text-blue-800 mb-4 border-b-2 border-blue-300 pb-2 text-center">Student Portal</h2>
             
             <div id="messageBox" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 hidden" role="alert">
-                <strong class="font-bold">Error!</strong>
+                <strong class="font-bold">Message:</strong>
                 <span class="block sm:inline" id="messageText"></span>
                 <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onclick="document.getElementById('messageBox').classList.add('hidden')">
                     <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.15a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.029a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.15 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
@@ -63,7 +63,12 @@
                     <input type="password" id="loginPassword" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Enter your password" required>
                 </div>
                 <button type="submit" class="w-full bg-blue-600 text-white px-8 py-3 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out text-lg font-semibold shadow-lg">Login</button>
-                <p class="text-center text-gray-600 mt-4">Don't have an account? <a href="#" id="showSignup" class="text-blue-600 hover:underline">Sign Up here</a></p>
+                <p class="text-center text-gray-600 mt-4">
+                    Don't have an account? <a href="#" id="showSignup" class="text-blue-600 hover:underline">Sign Up here</a>
+                </p>
+                <p class="text-center text-gray-600">
+                    <a href="#" id="forgotPassword" class="text-blue-600 hover:underline">Forgot Password?</a>
+                </p>
             </form>
 
             <!-- Signup Form (hidden by default) -->
@@ -77,6 +82,30 @@
                     <label for="signupPassword" class="block text-lg font-medium mb-1">Password:</label>
                     <input type="password" id="signupPassword" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Create a password (min 6 characters)" required minlength="6">
                 </div>
+                <!-- New fields for student details -->
+                <div>
+                    <label for="studentName" class="block text-lg font-medium mb-1">Full Name:</label>
+                    <input type="text" id="studentName" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Student's Full Name" required>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="studentClass" class="block text-lg font-medium mb-1">Class:</label>
+                        <input type="text" id="studentClass" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., Class II" required>
+                    </div>
+                    <div>
+                        <label for="studentSection" class="block text-lg font-medium mb-1">Section:</label>
+                        <input type="text" id="studentSection" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., A, B" required>
+                    </div>
+                </div>
+                <div>
+                    <label for="studentSchool" class="block text-lg font-medium mb-1">School Name:</label>
+                    <input type="text" id="studentSchool" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., Sahid Khudiram Basu Sishu Shiksha Niketan" required>
+                </div>
+                <div>
+                    <label for="studentRollNo" class="block text-lg font-medium mb-1">Roll Number:</label>
+                    <input type="text" id="studentRollNo" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 05" required>
+                </div>
+
                 <button type="submit" class="w-full bg-green-600 text-white px-8 py-3 rounded-md hover:bg-green-700 transition duration-300 ease-in-out text-lg font-semibold shadow-lg">Sign Up</button>
                 <p class="text-center text-gray-600 mt-4">Already have an account? <a href="#" id="showLogin" class="text-blue-600 hover:underline">Login here</a></p>
             </form>
@@ -89,14 +118,13 @@
         <p class="mt-2 text-sm">Designed with <span class="text-red-500">&hearts;</span> for Education</p>
     </footer>
 
-    <!-- Firebase SDKs (DO NOT CHANGE THESE LINES) -->
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script> <!-- NEW: Firestore SDK -->
     
     <script>
         // YOUR FIREBASE CONFIGURATION GOES HERE
-        // PASTE THE const firebaseConfig = { ... }; BLOCK YOU COPIED FROM FIREBASE CONSOLE HERE
-        // It should look like this example (but with YOUR unique values):
        const firebaseConfig = {
     apiKey: "AIzaSyBPmGC5jZ_YAzDqAoJNheUsjM8UXE9yNnI",
     authDomain: "sishu-mangal-portal.firebaseapp.com",
@@ -107,19 +135,21 @@
     measurementId: "G-W79ZQCYBL5"
   }
 
-        // Initialize Firebase (DO NOT CHANGE THIS LINE)
+        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth(); // (DO NOT CHANGE THIS LINE)
+        const auth = firebase.auth();
+        const db = firebase.firestore(); // NEW: Initialize Firestore
 
-        // Get references to HTML elements (DO NOT CHANGE THESE LINES)
+        // Get references to HTML elements
         const loginForm = document.getElementById('loginForm');
         const signupForm = document.getElementById('signupForm');
         const showSignupLink = document.getElementById('showSignup');
         const showLoginLink = document.getElementById('showLogin');
+        const forgotPasswordLink = document.getElementById('forgotPassword'); // NEW
         const messageBox = document.getElementById('messageBox');
         const messageText = document.getElementById('messageText');
 
-        // Function to display messages (DO NOT CHANGE THIS FUNCTION)
+        // Function to display messages
         function showMessage(message, isError = true) {
             messageText.textContent = message;
             messageBox.classList.remove('hidden');
@@ -132,31 +162,51 @@
             }
         }
 
-        // Handle Signup (DO NOT CHANGE THIS FUNCTION)
+        // Handle Signup
         signupForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Prevent default form submission
-            messageBox.classList.add('hidden'); // Hide previous messages
+            e.preventDefault(); 
+            messageBox.classList.add('hidden'); 
 
             const email = signupForm['signupEmail'].value;
             const password = signupForm['signupPassword'].value;
+            const studentName = signupForm['studentName'].value; // NEW
+            const studentClass = signupForm['studentClass'].value; // NEW
+            const studentSection = signupForm['studentSection'].value; // NEW
+            const studentSchool = signupForm['studentSchool'].value; // NEW
+            const studentRollNo = signupForm['studentRollNo'].value; // NEW
 
             try {
-                await auth.createUserWithEmailAndPassword(email, password);
+                // 1. Create user with Email and Password
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+
+                // 2. Save additional user data to Firestore
+                await db.collection('students').doc(user.uid).set({
+                    email: email,
+                    name: studentName,
+                    class: studentClass,
+                    section: studentSection,
+                    school: studentSchool,
+                    rollNo: studentRollNo,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp() // Adds a timestamp
+                });
+
                 showMessage('Account created successfully! You can now log in.', false);
-                // Optionally switch to login form after successful signup
+                // Switch to login form after successful signup
                 loginForm.classList.remove('hidden');
                 signupForm.classList.add('hidden');
-                loginForm['loginEmail'].value = email; // Pre-fill email for convenience
-                loginForm['loginPassword'].value = ''; // Clear password
+                loginForm['loginEmail'].value = email; 
+                loginForm['loginPassword'].value = ''; 
+
             } catch (error) {
                 showMessage(error.message);
             }
         });
 
-        // Handle Login (DO NOT CHANGE THIS FUNCTION)
+        // Handle Login
         loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Prevent default form submission
-            messageBox.classList.add('hidden'); // Hide previous messages
+            e.preventDefault(); 
+            messageBox.classList.add('hidden'); 
 
             const email = loginForm['loginEmail'].value;
             const password = loginForm['loginPassword'].value;
@@ -170,19 +220,39 @@
             }
         });
 
-        // Toggle between login and signup forms (DO NOT CHANGE THESE FUNCTIONS)
+        // Handle Forgot Password (NEW)
+        forgotPasswordLink.addEventListener('click', async (e) => {
+            e.preventDefault();
+            messageBox.classList.add('hidden'); 
+
+            const email = loginForm['loginEmail'].value; // Use the email from the login form
+
+            if (!email) {
+                showMessage('Please enter your email in the login field to reset your password.');
+                return;
+            }
+
+            try {
+                await auth.sendPasswordResetEmail(email);
+                showMessage('Password reset email sent! Check your inbox (and spam folder).', false);
+            } catch (error) {
+                showMessage(error.message);
+            }
+        });
+
+        // Toggle between login and signup forms
         showSignupLink.addEventListener('click', (e) => {
             e.preventDefault();
             loginForm.classList.add('hidden');
             signupForm.classList.remove('hidden');
-            messageBox.classList.add('hidden'); // Hide messages when switching forms
+            messageBox.classList.add('hidden'); 
         });
 
         showLoginLink.addEventListener('click', (e) => {
             e.preventDefault();
             signupForm.classList.add('hidden');
             loginForm.classList.remove('hidden');
-            messageBox.classList.add('hidden'); // Hide messages when switching forms
+            messageBox.classList.add('hidden'); 
         });
     </script>
 </body>
