@@ -31,7 +31,8 @@
                     <li><a href="index.html#mission" class="hover:text-blue-600 transition duration-300">Mission & Vision</a></li>
                     <li><a href="index.html#committee" class="hover:text-blue-600 transition duration-300">Managing Committee</a></li>
                     <li><a href="index.html#schools" class="hover:text-blue-600 transition duration-300">Our Schools</a></li>
-                    <li><a href="admission-form.html" class="hover:text-blue-600 transition duration-300">Admission Form</a></li>
+                    <!-- CORRECTED: Changed text to Student Login -->
+                    <li><a href="student-login.html" class="hover:text-blue-600 transition duration-300">Student Login</a></li>
                     <li><a href="affiliation-form.html" class="hover:text-blue-600 transition duration-300">Affiliation Form</a></li>
                 </ul>
             </nav>
@@ -90,7 +91,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label for="studentClass" class="block text-lg font-medium mb-1">Class:</label>
-                        <input type="text" id="studentClass" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., Class II" required>
+                        <input type="text" id="studentClass" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., Class III" required>
                     </div>
                     <div>
                         <label for="studentSection" class="block text-lg font-medium mb-1">Section:</label>
@@ -99,11 +100,11 @@
                 </div>
                 <div>
                     <label for="studentSchool" class="block text-lg font-medium mb-1">School Name:</label>
-                    <input type="text" id="studentSchool" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., Sahid Khudiram Basu Sishu Shiksha Niketan" required>
+                    <input type="text" id="studentSchool" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., SKBSSN" required>
                 </div>
                 <div>
                     <label for="studentRollNo" class="block text-lg font-medium mb-1">Roll Number:</label>
-                    <input type="text" id="studentRollNo" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 05" required>
+                    <input type="text" id="studentRollNo" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 12345" required>
                 </div>
 
                 <button type="submit" class="w-full bg-green-600 text-white px-8 py-3 rounded-md hover:bg-green-700 transition duration-300 ease-in-out text-lg font-semibold shadow-lg">Sign Up</button>
@@ -121,11 +122,11 @@
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script> <!-- NEW: Firestore SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script> 
     
     <script>
         // YOUR FIREBASE CONFIGURATION GOES HERE
-       const firebaseConfig = {
+        const firebaseConfig = {
     apiKey: "AIzaSyBPmGC5jZ_YAzDqAoJNheUsjM8UXE9yNnI",
     authDomain: "sishu-mangal-portal.firebaseapp.com",
     projectId: "sishu-mangal-portal",
@@ -133,19 +134,19 @@
     messagingSenderId: "96868497309",
     appId: "1:96868497309:web:19d421e00aad420e05e174",
     measurementId: "G-W79ZQCYBL5"
-  }
+  };
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const db = firebase.firestore(); // NEW: Initialize Firestore
+        const db = firebase.firestore(); 
 
         // Get references to HTML elements
         const loginForm = document.getElementById('loginForm');
         const signupForm = document.getElementById('signupForm');
         const showSignupLink = document.getElementById('showSignup');
         const showLoginLink = document.getElementById('showLogin');
-        const forgotPasswordLink = document.getElementById('forgotPassword'); // NEW
+        const forgotPasswordLink = document.getElementById('forgotPassword'); 
         const messageBox = document.getElementById('messageBox');
         const messageText = document.getElementById('messageText');
 
@@ -169,11 +170,11 @@
 
             const email = signupForm['signupEmail'].value;
             const password = signupForm['signupPassword'].value;
-            const studentName = signupForm['studentName'].value; // NEW
-            const studentClass = signupForm['studentClass'].value; // NEW
-            const studentSection = signupForm['studentSection'].value; // NEW
-            const studentSchool = signupForm['studentSchool'].value; // NEW
-            const studentRollNo = signupForm['studentRollNo'].value; // NEW
+            const studentName = signupForm['studentName'].value; 
+            const studentClass = signupForm['studentClass'].value; 
+            const studentSection = signupForm['studentSection'].value; 
+            const studentSchool = signupForm['studentSchool'].value; 
+            const studentRollNo = signupForm['studentRollNo'].value; 
 
             try {
                 // 1. Create user with Email and Password
@@ -188,7 +189,7 @@
                     section: studentSection,
                     school: studentSchool,
                     rollNo: studentRollNo,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp() // Adds a timestamp
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp() 
                 });
 
                 showMessage('Account created successfully! You can now log in.', false);
@@ -220,12 +221,12 @@
             }
         });
 
-        // Handle Forgot Password (NEW)
+        // Handle Forgot Password
         forgotPasswordLink.addEventListener('click', async (e) => {
             e.preventDefault();
             messageBox.classList.add('hidden'); 
 
-            const email = loginForm['loginEmail'].value; // Use the email from the login form
+            const email = loginForm['loginEmail'].value; 
 
             if (!email) {
                 showMessage('Please enter your email in the login field to reset your password.');
