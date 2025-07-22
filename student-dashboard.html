@@ -41,9 +41,19 @@
     <main class="container mx-auto my-8 p-6 bg-white shadow-lg rounded-lg">
         <section class="p-6 bg-blue-50 rounded-lg shadow-md border border-blue-100 text-center">
             <h2 class="text-3xl font-semibold text-blue-800 mb-4 pb-2">Welcome to Your Student Dashboard!</h2>
-            <p class="text-lg text-gray-700">Hello, <span id="userEmail" class="font-bold text-blue-700"></span>!</p>
-            <p class="mt-4 text-gray-600">This is your personalized area. In a real application, you could see your grades, attendance, announcements, and more here.</p>
-            <p class="mt-2 text-sm text-gray-500">Your User ID: <span id="userId" class="font-mono text-xs">Loading...</span></p>
+            <p class="text-lg text-gray-700">Hello, <span id="studentDisplayName" class="font-bold text-blue-700">Student</span>!</p>
+            <p class="mt-4 text-gray-600">Here are your details:</p>
+            
+            <div class="mt-6 text-left max-w-md mx-auto space-y-2">
+                <p><strong>Email:</strong> <span id="userEmail" class="text-gray-700">Loading...</span></p>
+                <p><strong>Class:</strong> <span id="studentClass" class="text-gray-700">Loading...</span></p>
+                <p><strong>Section:</strong> <span id="studentSection" class="text-gray-700">Loading...</span></p>
+                <p><strong>School:</strong> <span id="studentSchool" class="text-gray-700">Loading...</span></p>
+                <p><strong>Roll No:</strong> <span id="studentRollNo" class="text-gray-700">Loading...</span></p>
+                <p class="text-sm text-gray-500 mt-4">Your User ID: <span id="userId" class="font-mono text-xs">Loading...</span></p>
+            </div>
+            
+            <p class="mt-6 text-gray-600">This is your personalized area. In a real application, you could see your grades, attendance, announcements, and more here.</p>
         </section>
     </main>
 
@@ -53,15 +63,15 @@
         <p class="mt-2 text-sm">Designed with <span class="text-red-500">&hearts;</span> for Education</p>
     </footer>
 
-    <!-- Firebase SDKs (DO NOT CHANGE THESE LINES) -->
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script> <!-- NEW: Firestore SDK -->
 
     <script>
         // YOUR FIREBASE CONFIGURATION GOES HERE
         // PASTE THE const firebaseConfig = { ... }; BLOCK YOU COPIED FROM FIREBASE CONSOLE HERE
-        // It should look like this example (but with YOUR unique values):
-       const firebaseConfig = {
+        const firebaseConfig = {
     apiKey: "AIzaSyBPmGC5jZ_YAzDqAoJNheUsjM8UXE9yNnI",
     authDomain: "sishu-mangal-portal.firebaseapp.com",
     projectId: "sishu-mangal-portal",
@@ -69,29 +79,61 @@
     messagingSenderId: "96868497309",
     appId: "1:96868497309:web:19d421e00aad420e05e174",
     measurementId: "G-W79ZQCYBL5"
-  }
+  };
 
-        // Initialize Firebase (DO NOT CHANGE THIS LINE)
+        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth(); // (DO NOT CHANGE THIS LINE)
+        const auth = firebase.auth();
+        const db = firebase.firestore(); // NEW: Initialize Firestore
 
-        const userEmailSpan = document.getElementById('userEmail'); // (DO NOT CHANGE THIS LINE)
-        const userIdSpan = document.getElementById('userId'); // (DO NOT CHANGE THIS LINE)
-        const logoutButton = document.getElementById('logoutButton'); // (DO NOT CHANGE THIS LINE)
+        // Get references to HTML elements
+        const studentDisplayNameSpan = document.getElementById('studentDisplayName'); // For "Hello, [Name]!"
+        const userEmailSpan = document.getElementById('userEmail');
+        const userIdSpan = document.getElementById('userId');
+        const studentClassSpan = document.getElementById('studentClass'); // NEW
+        const studentSectionSpan = document.getElementById('studentSection'); // NEW
+        const studentSchoolSpan = document.getElementById('studentSchool'); // NEW
+        const studentRollNoSpan = document.getElementById('studentRollNo'); // NEW
+        const logoutButton = document.getElementById('logoutButton');
 
-        // Check if user is logged in (DO NOT CHANGE THIS FUNCTION)
-        auth.onAuthStateChanged((user) => {
+        // Check if user is logged in and fetch their data
+        auth.onAuthStateChanged(async (user) => {
             if (user) {
                 // User is signed in
-                userEmailSpan.textContent = user.email;
-                userIdSpan.textContent = user.uid;
+                userIdSpan.textContent = user.uid; // Display UID
+
+                try {
+                    // Fetch additional student data from Firestore
+                    const docRef = db.collection('students').doc(user.uid);
+                    const docSnap = await docRef.get();
+
+                    if (docSnap.exists) {
+                        const studentData = docSnap.data();
+                        studentDisplayNameSpan.textContent = studentData.name || user.email; // Use name if available, else email
+                        userEmailSpan.textContent = studentData.email || user.email;
+                        studentClassSpan.textContent = studentData.class || 'N/A';
+                        studentSectionSpan.textContent = studentData.section || 'N/A';
+                        studentSchoolSpan.textContent = studentData.school || 'N/A';
+                        studentRollNoSpan.textContent = studentData.rollNo || 'N/A';
+                    } else {
+                        // Document does not exist (e.g., old user or data not saved)
+                        studentDisplayNameSpan.textContent = user.email;
+                        userEmailSpan.textContent = user.email;
+                        console.warn("No additional student data found for user:", user.uid);
+                    }
+                } catch (error) {
+                    console.error("Error fetching student data:", error);
+                    studentDisplayNameSpan.textContent = user.email; // Fallback to email on error
+                    userEmailSpan.textContent = user.email;
+                }
+
             } else {
                 // No user is signed in, redirect to login page
                 window.location.href = 'student-login.html';
             }
         });
 
-        // Handle Logout (DO NOT CHANGE THIS FUNCTION)
+        // Handle Logout
         logoutButton.addEventListener('click', async (e) => {
             e.preventDefault();
             try {
@@ -100,7 +142,6 @@
                 window.location.href = 'student-login.html';
             } catch (error) {
                 console.error("Logout error:", error);
-                // You could add a small message box here if needed
             }
         });
     </script>
