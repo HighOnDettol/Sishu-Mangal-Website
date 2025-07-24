@@ -25,7 +25,6 @@
                     <li><a href="#schools" class="hover:text-blue-600 transition duration-300">Our Schools</a></li>
                     <li><a href="student-login.html" class="hover:text-blue-600 transition duration-300">Student Login</a></li>
                     <li><a href="affiliation-form.html" class="hover:text-blue-600 transition duration-300">Affiliation Form</a></li>
-                    <!-- New navigation link for Contact Us -->
                     <li><a href="#contact" class="hover:text-blue-600 transition duration-300">Contact Us</a></li>
                 </ul>
             </nav>
@@ -197,17 +196,40 @@
             </div>
         </section>
 
-        <!-- 4. Names of Schools (Placeholder) -->
+        <!-- 4. Names of Schools -->
         <section id="schools" class="mb-12 p-6 bg-blue-50 rounded-lg shadow-md border border-blue-100">
             <h2 class="text-3xl font-semibold text-blue-800 mb-4 border-b-2 border-blue-300 pb-2">Our Schools</h2>
-            <p class="text-gray-700">A list of schools will appear here. Clicking on a school will reveal its details (Principal, Managing Committee, photos).</p>
-            <!-- Example structure for a school link -->
-            <!--
-            <ul class="list-disc list-inside space-y-2">
-                <li><a href="#" class="text-blue-600 hover:underline">School Name 1</a></li>
-                <li><a href="#" class="text-blue-600 hover:underline">School Name 2</a></li>
-            </ul>
-            -->
+            <div id="schoolList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- School links will be dynamically added here by JavaScript -->
+            </div>
+
+            <!-- Modal for School Details (hidden by default) -->
+            <div id="schoolModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+                <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl relative">
+                    <button id="closeModal" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+                    <h3 id="modalSchoolName" class="text-3xl font-bold text-blue-800 mb-4 border-b-2 border-blue-300 pb-2"></h3>
+                    
+                    <div class="space-y-4 text-gray-700">
+                        <div>
+                            <p class="font-semibold">Principal:</p>
+                            <p id="modalPrincipal"></p>
+                        </div>
+                        <div>
+                            <p class="font-semibold">Managing Committee:</p>
+                            <ul id="modalManagingCommittee" class="list-disc list-inside ml-4"></ul>
+                        </div>
+                        <div>
+                            <p class="font-semibold">Student Group Photo:</p>
+                            <img id="modalStudentPhoto" src="" alt="Student Group" class="w-full h-auto rounded-lg shadow-md mt-2">
+                        </div>
+                        <div>
+                            <p class="font-semibold">Teacher Group Photo:</p>
+                            <img id="modalTeacherPhoto" src="" alt="Teacher Group" class="w-full h-auto rounded-lg shadow-md mt-2">
+                        </div>
+                        <!-- Add more details as needed -->
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- New Contact Us Section -->
@@ -276,6 +298,532 @@
                 },
             },
         };
+
+        // --- JavaScript for Our Schools Section ---
+
+        // 1. Data for Schools (Populated with your list!)
+        const schoolsData = [
+            {
+                id: 'school-abdul-latif',
+                name: 'ABDUL LATIF S. S. S. N',
+                principal: 'Principal Name Pending', // Placeholder
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'], // Placeholder
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-ajlampur',
+                name: 'AJLAMPUR GRACE VALLEY ACADEMY',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-vidyasagar-sn',
+                name: 'VIDYASAGAR S.N.',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-andulberia',
+                name: 'ANDULBERIA VIDYASAGAR ADARSHA SIKSHA NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-aps',
+                name: 'A.P.S',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-prabhat-institute',
+                name: 'PRABHAT INSTITUTE',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-career-academy',
+                name: 'CAREER ACADEMY',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-kbssn',
+                name: 'K.B.S.S.N',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-hanskhali-dakshinpara',
+                name: 'HANSKHALI DAKSHINPARA SISHU VIDYAMANDIR',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-barajiakur',
+                name: 'BARAJIAKUR VIDYASAGAR SISHU NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-kabirabindra',
+                name: 'KABIRABINDRA S.N.',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-gitarani',
+                name: 'GITARANI NURSERY SCHOOL',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-betberia',
+                name: 'BETBERIA SISHU SIKSHA NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-binoy-vhusan',
+                name: 'BINOY VHUSAN SISHU NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-kobi-joynal',
+                name: 'KOBI JOYNAL ABEDIN MODERN SCHOOL',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-banagram',
+                name: 'BANAGRAM VIDYAROHI SHISHU NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-chanderghat',
+                name: 'CHANDERGHAT SISHUNIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-bakalsa',
+                name: 'BAKALSA SISHUMANGAL VIDHYALAYA',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-dogachhi',
+                name: 'DOGACHHI BINAPANI SISHU SIKSHA NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-haripur-adarsha',
+                name: 'HARIPUR ADARSHA SISHU SIKSHA NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-asachia',
+                name: 'ASHACHIA SISHUMANGALAM NURSERY SCHOOL',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-ramkrishna',
+                name: 'RAMKRISHNA SISHU MANGAL VIDYALAYA',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-hutgobindapur',
+                name: 'HUTGOBINDAPUR HUJURALI SMRITI PUBLIC SCHOOL',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-bansbaria',
+                name: 'BANSBARIA RENUKA S.S.N',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-kechuadanga',
+                name: 'KECHUADANGA G. G. SISHU NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-jamalpur',
+                name: 'JAMALPUR V. S. N.',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-katwa',
+                name: 'KATWA SISHUMANGAL',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-sreemayapur-unit1',
+                name: 'SREEMAYAPUR UNIT1',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-mayapur-academy',
+                name: 'MAYAPUR ACADEMY',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-sreemayapur-unit2',
+                name: 'SREEMAYAPUR UNIT2',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-bhusandas',
+                name: 'BHUSANDAS SHISHU NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-sahid-khudiram',
+                name: 'SAHID KHUDIRAM BASU SISHU SIKSHA NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-molandi-satata',
+                name: 'MOLANDI SATATA SISHU NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-sondanga',
+                name: 'SONDANGA ADARSHA S.N.',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-kabiguru',
+                name: 'KABIGURU SISHUNIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-murutia',
+                name: 'MURUTIA SISHU NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-nazirpur',
+                name: 'NAZIRPUR NABODOY SISHU NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-path-bhaban',
+                name: 'PATH BHABAN INST.',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-new-vivekananda',
+                name: 'NEW VIVEKANANDA SISU NIKETAN . PLASSEY',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-dhubulia',
+                name: 'DHUBULIA HOLYCHILD SCHOOL',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-kiddozone',
+                name: 'KIDDOZONE SCHOOL',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-sm-memorial',
+                name: 'S.M. MEMORIAL',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-rabindra-najrul',
+                name: 'RABINDRA NAJRUL ACADEMY AGRADWIP',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-netaji-shishu',
+                name: 'NETAJI SHISHU NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-netaji-subhas',
+                name: 'NETAJI SUBHAS ADARSHA SISHU NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-shimulia',
+                name: 'SHIMULIA PARICHAY SISHU SIKSHA NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-vidyasagar-kalinagar',
+                name: 'VIDYASAGAR S.N. KALINAGAR',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-adarsha-haripur',
+                name: 'ADARSHA S.N. HARIPUR',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-narayanpur',
+                name: 'NARAYANPUR KISHALAY SISHU NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-hanskhali-saradamani',
+                name: 'HANSHKHALI SARADAMANI SISHU SIKSHA NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-asannagar',
+                name: 'ASANNAGAR B .C ROY.S.N.',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-taranipur',
+                name: 'TARANIPUR CHILDREN ACADEMIA',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-sai-sishu',
+                name: 'SAI SISHU SIKSHA NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-kobi-bijoylal',
+                name: 'KOBI BIJOYLAL SISHU SIKSHA NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-tehatta-sarada',
+                name: 'TEHATTA SARADA MOYEE SISHU NIKETAN',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            },
+            {
+                id: 'school-ballavpara',
+                name: 'BALLAVPARA SISHU MANGAL VIDYALAYA',
+                principal: 'Principal Name Pending',
+                managingCommittee: ['Committee Member 1', 'Committee Member 2'],
+                studentPhoto: 'https://placehold.co/600x400/F0F8FF/000000?text=Students',
+                teacherPhoto: 'https://placehold.co/600x400/E6F0FF/000000?text=Teachers'
+            }
+        ];
+
+        // 2. Get HTML elements
+        const schoolListDiv = document.getElementById('schoolList');
+        const schoolModal = document.getElementById('schoolModal');
+        const closeModalButton = document.getElementById('closeModal');
+        const modalSchoolName = document.getElementById('modalSchoolName');
+        const modalPrincipal = document.getElementById('modalPrincipal');
+        const modalManagingCommittee = document.getElementById('modalManagingCommittee');
+        const modalStudentPhoto = document.getElementById('modalStudentPhoto');
+        const modalTeacherPhoto = document.getElementById('modalTeacherPhoto');
+
+        // 3. Function to display school list
+        function displaySchools() {
+            schoolListDiv.innerHTML = ''; // Clear existing list
+            schoolsData.forEach(school => {
+                const schoolCard = document.createElement('div');
+                schoolCard.className = 'p-4 bg-white rounded-lg shadow-md border border-gray-100 hover:shadow-lg transition duration-300 cursor-pointer';
+                schoolCard.innerHTML = `
+                    <h3 class="text-xl font-semibold text-blue-700 mb-2">${school.name}</h3>
+                    <p class="text-gray-600">Principal: ${school.principal}</p>
+                `;
+                schoolCard.dataset.schoolId = school.id; // Store school ID for easy lookup
+                schoolListDiv.appendChild(schoolCard);
+            });
+        }
+
+        // 4. Function to show modal with school details
+        function showSchoolDetails(schoolId) {
+            const school = schoolsData.find(s => s.id === schoolId);
+            if (school) {
+                modalSchoolName.textContent = school.name;
+                modalPrincipal.textContent = school.principal;
+                
+                // Clear previous committee members
+                modalManagingCommittee.innerHTML = '';
+                school.managingCommittee.forEach(member => {
+                    const li = document.createElement('li');
+                    li.textContent = member;
+                    modalManagingCommittee.appendChild(li);
+                });
+
+                modalStudentPhoto.src = school.studentPhoto;
+                modalStudentPhoto.alt = `${school.name} Student Group Photo`;
+                modalTeacherPhoto.src = school.teacherPhoto;
+                modalTeacherPhoto.alt = `${school.name} Teacher Group Photo`;
+
+                schoolModal.classList.remove('hidden'); // Show the modal
+            }
+        }
+
+        // 5. Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            displaySchools(); // Display schools when the page loads
+
+            schoolListDiv.addEventListener('click', (event) => {
+                const clickedCard = event.target.closest('[data-school-id]');
+                if (clickedCard) {
+                    showSchoolDetails(clickedCard.dataset.schoolId);
+                }
+            });
+
+            closeModalButton.addEventListener('click', () => {
+                schoolModal.classList.add('hidden'); // Hide the modal
+            });
+
+            // Close modal if clicked outside (optional)
+            schoolModal.addEventListener('click', (event) => {
+                if (event.target === schoolModal) {
+                    schoolModal.classList.add('hidden');
+                }
+            });
+        });
     </script>
 </body>
 </html>
