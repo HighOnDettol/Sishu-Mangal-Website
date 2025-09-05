@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sishu Mangal Parsat - Notice Board</title>
+    <!-- Link to Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap">
+    <style>
+        /* Custom styles for the interactive notice board */
+        .notice-board-bg {
+            background-image: url('https://placehold.co/800x600/C0A381/A48360?text=Cork+Board+Texture');
+            background-size: cover;
+            background-position: center;
+        }
+        .note {
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .note:hover {
+            transform: translateY(-5px) rotate(0deg) scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+        .note-pink { background-color: #F8BBD0; transform: rotate(-3deg); }
+        .note-yellow { background-color: #FFF9C4; transform: rotate(2deg); }
+        .note-green { background-color: #C8E6C9; transform: rotate(-5deg); }
+        .note-blue { background-color: #BBDEFB; transform: rotate(4deg); }
+        @keyframes popIn {
+            from { transform: scale(0.5) rotate(0deg); opacity: 0; }
+            to { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        .modal-content {
+            animation: popIn 0.3s ease-out forwards;
+        }
+        .font-handwritten {
+            font-family: 'Permanent Marker', cursive;
+        }
+
+        /* Mobile Dropdown Menu Styles */
+        @media (max-width: 639px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+            .mobile-menu {
+                display: none;
+            }
+            .mobile-menu.active {
+                display: flex;
+            }
+        }
+    </style>
+    <script>
+        // Tailwind CSS configuration for consistency
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                        handwritten: ['"Permanent Marker"', 'cursive']
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+<body class="font-inter bg-gray-50 text-gray-800 antialiased">
+    <!-- Header Section -->
+    <header class="bg-blue-50 text-blue-800 p-4 shadow-xl rounded-b-lg">
+        <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center">
+            <!-- Logo and Title -->
+            <div class="flex items-center space-x-3 mb-4 sm:mb-0">
+                <img src="https://play-lh.googleusercontent.com/WXFRIK9iY1WQhPfs5_uiNrJrRVzMy_LRMUFdSFed2oB3XbAgyeJ4fXFfYTzzzVyw_wU" alt="Sishu Mangal Parsat Logo" class="h-12 w-12 rounded-full object-cover">
+                <h1 class="text-3xl font-bold">Sishu Mangal Parsat </h1>
+            </div>
+            <!-- Navigation -->
+            <nav class="w-full sm:w-auto">
+                <!-- Hamburger menu for mobile -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle sm:hidden w-full text-center py-2 px-4 rounded-md bg-blue-100 text-blue-800">
+                    Menu
+                </button>
+                <ul id="mainMenu" class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 mt-4 sm:mt-0 mobile-menu">
+                    <li><a href="index.html" class="hover:text-blue-600 transition duration-300">Home</a></li>
+                    <li><a href="index.html#founder" class="hover:text-blue-600 transition duration-300">About Founder</a></li>
+                    <li><a href="index.html#mission" class="hover:text-blue-600 transition duration-300">Mission & Vision</a></li>
+                    <li><a href="index.html#committee" class="hover:text-blue-600 transition duration-300">Managing Committee</a></li>
+                    <li><a href="our-schools.html" class="hover:text-blue-600 transition duration-300">Our Schools</a></li>
+                    <li><a href="student-login.html" class="hover:text-blue-600 transition duration-300">Student Login</a></li>
+                    <li><a href="affiliation-form.html" class="hover:text-blue-600 transition duration-300">Affiliation Form</a></li>
+                    <li class="font-bold"><a href="notice-board.html" class="hover:text-blue-600 transition duration-300">Notice Board</a></li>
+                    <li><a href="index.html#contact" class="hover:text-blue-600 transition duration-300">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto my-8 p-6 bg-white shadow-lg rounded-lg">
+        <!-- New Interactive Notice Board Section -->
+        <section id="notice-board-content" class="mb-12 p-6 rounded-lg shadow-md notice-board-bg">
+            <h2 class="text-3xl font-semibold text-white mb-6 border-b-2 border-white pb-2 text-center drop-shadow-lg"> Notice Board</h2>
+            <div id="noticeList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
+                <!-- Notes will be dynamically added here by JavaScript -->
+            </div>
+
+            <!-- Modal for Notices (hidden by default) -->
+            <div id="noticeModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+                <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg relative note-blue modal-content">
+                    <button id="closeNoticeModal" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+                    <h3 id="modalNoticeTitle" class="text-3xl font-bold text-blue-800 mb-4 border-b-2 border-blue-300 pb-2 font-handwritten"></h3>
+                    <p id="modalNoticeContent" class="text-lg text-gray-700 font-handwritten whitespace-pre-wrap"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-white p-6 text-center rounded-t-lg mt-8">
+        <p>&copy; 2025 Sishu Mangal Parsat. All rights reserved.</p>
+        <p class="mt-2 text-sm">Designed with <span class="text-red-500">&hearts;</span> for Education</p>
+    </footer>
+
+    <script>
+        const noticesData = [
+            {
+                id: 'notice-1',
+                title: 'Half yearly examination date sheet',
+                content: "add in here",
+                color: 'note-pink'
+            },
+            {
+                id: 'notice-2',
+                title: 'inter school poetry competition',
+                content: "upload your works on the link......** ",
+                color: 'note-yellow'
+            },
+            {
+                id: 'notice-3',
+                title: 'Drawing Competition!',
+                content: "....",
+                color: 'note-green'
+            },
+            {
+                id: 'notice-4',
+                title: 'inter school dramatics competition',
+                content: "..........",
+                color: 'note-blue'
+            },
+            {
+                id: 'notice-5',
+                title: 'Summer Vacation',
+                content: "It's time for summer fun! Schools will be closed for summer vacation from [Start Date] to [End Date]. Enjoy your break, stay safe, and don't forget to read a book!",
+                color: 'note-yellow'
+            },
+            {
+                id: 'notice-6',
+                title: 'Inter school mock united nation',
+                content: "......",
+                color: 'note-pink'
+            }
+        ];
+
+        // Get HTML elements
+        const noticeListDiv = document.getElementById('noticeList');
+        const noticeModal = document.getElementById('noticeModal');
+        const closeNoticeModalButton = document.getElementById('closeNoticeModal');
+        const modalNoticeTitle = document.getElementById('modalNoticeTitle');
+        const modalNoticeContent = document.getElementById('modalNoticeContent');
+
+        // Function to display notes
+        function displayNotes() {
+            noticeListDiv.innerHTML = ''; // Clear existing notes
+            noticesData.forEach(notice => {
+                const noteCard = document.createElement('div');
+                noteCard.className = `note p-4 rounded-lg font-handwritten ${notice.color}`;
+                noteCard.innerHTML = `
+                    <h3 class="text-xl font-bold mb-2">${notice.title}</h3>
+                    <p class="text-gray-700">${notice.content.substring(0, 100)}...</p>
+                `;
+                noteCard.dataset.noticeId = notice.id; // Store notice ID for lookup
+                noticeListDiv.appendChild(noteCard);
+            });
+        }
+
+        // Function to show modal with full notice details
+        function showNoticeDetails(noticeId) {
+            const notice = noticesData.find(n => n.id === noticeId);
+            if (notice) {
+                modalNoticeTitle.textContent = notice.title;
+                modalNoticeContent.textContent = notice.content;
+                
+                noticeModal.classList.remove('hidden'); // Show the modal
+            }
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            displayNotes(); // Display notes when the page loads
+
+            noticeListDiv.addEventListener('click', (event) => {
+                const clickedNote = event.target.closest('[data-notice-id]');
+                if (clickedNote) {
+                    showNoticeDetails(clickedNote.dataset.noticeId);
+                }
+            });
+
+            closeNoticeModalButton.addEventListener('click', () => {
+                noticeModal.classList.add('hidden'); // Hide the modal
+            });
+
+            noticeModal.addEventListener('click', (event) => {
+                if (event.target === noticeModal) {
+                    noticeModal.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
